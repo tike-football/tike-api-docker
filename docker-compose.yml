@@ -1,0 +1,62 @@
+services:
+  # MySQL Database Service
+  mysql:
+    image: mysql:8.0
+    container_name: tike-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-tike_db}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MYSQL_USER: ${DB_USERNAME:-tike_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - tike-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Laravel Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tike-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./tike-api:/var/www/html
+    networks:
+      - tike-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Nginx Web Server Service
+  nginx:
+    image: nginx:alpine
+    container_name: tike-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - ./tike-api:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - tike-network
+    depends_on:
+      - app
+
+networks:
+  tike-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

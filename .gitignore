@@ -1,0 +1,16 @@
+# Laravel project folder
+tike-api/
+
+# Environment files
+.env
+
+# Docker volumes
+mysql-data/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,3 @@
+# This directory can contain MySQL initialization scripts
+# Any .sql or .sh files placed here will be executed when the MySQL container is first created
+# Example: place a schema.sql file here to initialize your database schema
