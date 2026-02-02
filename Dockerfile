@@ -19,11 +19,6 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u 1000 -d /home/tike tike
-RUN mkdir -p /home/tike/.composer && \
-    chown -R tike:tike /home/tike
-
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

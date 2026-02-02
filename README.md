@@ -161,7 +161,11 @@ docker-compose down -v
 Si tienes problemas de permisos con la carpeta `tike-api`:
 
 ```bash
+# Opción 1: Dar permisos a tu usuario
 sudo chown -R $USER:$USER tike-api
+
+# Opción 2: Usar permisos más abiertos (útil para desarrollo)
+sudo chmod -R 777 tike-api/storage tike-api/bootstrap/cache
 ```
 
 ### Limpiar todo y empezar de nuevo
