@@ -24,12 +24,6 @@ RUN useradd -G www-data,root -u 1000 -d /home/tike tike
 RUN mkdir -p /home/tike/.composer && \
     chown -R tike:tike /home/tike
 
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html
-
-# Switch to non-root user
-USER tike
-
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
