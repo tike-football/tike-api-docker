@@ -28,3 +28,25 @@ DB_DATABASE=tike
 DB_USERNAME=tike
 DB_PASSWORD=tike
 ```
+
+## Queue Workers
+
+### View application logs in real-time:
+```bash
+docker compose exec app tail -f storage/logs/laravel.log
+```
+
+### Run the queue worker for the "emails" queue:
+```bash
+docker compose exec app php artisan queue:work --queue=emails --verbose
+```
+
+### Run the queue worker with retry attempts:
+```bash
+docker compose exec app php artisan queue:work --queue=emails --verbose --tries=3
+```
+
+### Recommended for development (auto-reloads on code changes):
+```bash
+docker compose exec app php artisan queue:listen --queue=emails --verbose --tries=3 --timeout=60
+```
