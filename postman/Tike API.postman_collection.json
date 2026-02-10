@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "8d7a01b8-0b54-4b0f-8a52-79e3d6f2b3d1",
     "name": "Tike API",
+    "description": "Tike API with OAuth2 authentication and API Key security.\n\n**Authentication:**\n- All endpoints (except /health) require an API Key via `X-API-Key` header\n- Protected endpoints also require OAuth Bearer token via `Authorization` header\n\n**Development API Key:**\n- Set `{{api_key}}` in environment to: `dev_test_ddddddddddddddddddddddddddddddddddddddddddddddddddddddd`",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -20,9 +21,68 @@
             "v1",
             "health"
           ]
-        }
+        },
+        "description": "Health check endpoint - Does not require API key or authentication."
       },
       "response": []
+    },
+    {
+      "name": "Countries",
+      "item": [
+        {
+          "name": "Get All Countries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/countries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "countries"
+              ]
+            },
+            "description": "Get list of all countries with phone codes and flag emojis.\n\nRequires: API Key"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Country by Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/countries/MX",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "countries",
+                "MX"
+              ]
+            },
+            "description": "Get country details by ISO code (alpha-2 or alpha-3).\n\nRequires: API Key\n\nExamples:\n- /countries/MX (alpha-2)\n- /countries/MEX (alpha-3)"
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Auth",
@@ -35,6 +95,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
                 "type": "text"
               }
             ],
@@ -53,7 +118,8 @@
                 "auth",
                 "get-token"
               ]
-            }
+            },
+            "description": "Login and get OAuth access token.\n\nRequires: API Key\n\nThe response includes an access_token that is automatically saved to the environment variable for use in authenticated endpoints."
           },
           "response": [],
           "event": [
@@ -80,6 +146,11 @@
                 "key": "Content-Type",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
               }
             ],
             "body": {
@@ -97,7 +168,8 @@
                 "auth",
                 "sign-up"
               ]
-            }
+            },
+            "description": "Register a new user.\n\nRequires: API Key\n\n**Required fields:**\n- name\n- last_name\n- email (unique)\n- country_code\n- phone_number (unique per country_code)\n- password (min 8 chars, mixed case, numbers)\n- password_confirmation\n\n**Optional:**\n- language (es or en, default: es)"
           },
           "response": []
         },
@@ -114,6 +186,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{verification_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
                 "type": "text"
               }
             ],
@@ -132,7 +209,8 @@
                 "auth",
                 "verify-email"
               ]
-            }
+            },
+            "description": "Verify user email address.\n\nRequires: API Key + Verification Token\n\nThe verification token is sent via email and has the 'user:verify' scope. After verification, the token is revoked."
           },
           "response": []
         },
@@ -149,6 +227,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
                 "type": "text"
               }
             ],
@@ -167,7 +250,8 @@
                 "auth",
                 "password"
               ]
-            }
+            },
+            "description": "Update authenticated user's password.\n\nRequires: API Key + Access Token + 'user:update-password' scope\n\n**Required fields:**\n- current_password\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation"
           },
           "response": []
         },
@@ -179,6 +263,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
                 "type": "text"
               }
             ],
@@ -198,7 +287,8 @@
                 "password",
                 "forgot"
               ]
-            }
+            },
+            "description": "Request password reset email.\n\nRequires: API Key\n\nSends a password reset email with a token that has 'user:recover-password' scope."
           },
           "response": []
         },
@@ -215,6 +305,11 @@
               {
                 "key": "Authorization",
                 "value": "Bearer {{reset_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
                 "type": "text"
               }
             ],
@@ -234,7 +329,8 @@
                 "password",
                 "reset"
               ]
-            }
+            },
+            "description": "Reset password using reset token.\n\nRequires: API Key + Reset Token + 'user:recover-password' scope\n\n**Required fields:**\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation\n\nAfter reset, all user tokens are revoked and email is verified if not already."
           },
           "response": []
         }
@@ -252,6 +348,11 @@
                 "key": "Authorization",
                 "value": "Bearer {{access_token}}",
                 "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
               }
             ],
             "url": {
@@ -265,7 +366,8 @@
                 "scopes",
                 "test"
               ]
-            }
+            },
+            "description": "Test endpoint for scope validation.\n\nRequires: API Key + Access Token + 'test:test' scope"
           },
           "response": []
         }
