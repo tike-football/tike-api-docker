@@ -337,6 +337,42 @@
       ]
     },
     {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user"
+              ]
+            },
+            "description": "Get authenticated user profile.\n\nRequires: API Key + Access Token + 'user:get' scope"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Scopes",
       "item": [
         {
