@@ -408,6 +408,57 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Football Data",
+          "item": [
+            {
+              "name": "Sync League",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"league_id\": 39,\n  \"season\": 2026\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/football-data/sync-league",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "football-data",
+                    "sync-league"
+                  ]
+                },
+                "description": "Sync one league from provider and persist it locally.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
     }
   ]
 }
