@@ -41,12 +41,27 @@ docker compose exec app tail -f storage/logs/laravel.log
 docker compose exec app php artisan queue:work --queue=emails --verbose
 ```
 
+### Run the queue worker for the "football-data" queue:
+```bash
+docker compose exec app php artisan queue:work --queue=football-data --verbose
+```
+
 ### Run the queue worker with retry attempts:
 ```bash
 docker compose exec app php artisan queue:work --queue=emails --verbose --tries=3
 ```
 
+### Run the "football-data" queue worker with retry attempts:
+```bash
+docker compose exec app php artisan queue:work --queue=football-data --verbose --tries=3
+```
+
 ### Recommended for development (auto-reloads on code changes):
 ```bash
 docker compose exec app php artisan queue:listen --queue=emails --verbose --tries=3 --timeout=60
+```
+
+### Recommended for development for "football-data" queue:
+```bash
+docker compose exec app php artisan queue:listen --queue=football-data --verbose --tries=3 --timeout=60
 ```
