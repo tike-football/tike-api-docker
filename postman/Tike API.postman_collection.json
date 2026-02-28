@@ -413,6 +413,50 @@
             "description": "Get fixtures cache payload.\n\nRequires: API Key + Access Token + scope `football-data:get`\n\nBehavior:\n- Missing/invalid cache_fixtures_id: returns full cache\n- cache_fixtures_id == cache_fixtures_changes_id: returns empty object\n- cache_fixtures_id older than full cache id: returns full cache\n- cache_fixtures_id == full cache id and changes id is newer: returns changes cache"
           },
           "response": []
+        },
+        {
+          "name": "Get League Structure",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/football-data/get-league-structure?league_id=195&season=2026",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "football-data",
+                "get-league-structure"
+              ],
+              "query": [
+                {
+                  "key": "league_id",
+                  "value": "195",
+                  "description": "Required. Local leagues.id"
+                },
+                {
+                  "key": "season",
+                  "value": "2026",
+                  "description": "Required. Season year"
+                }
+              ]
+            },
+            "description": "Get league season structure from `league_seasons.structure`.\n\nRequires: API Key + Access Token + scope `football-data:get`"
+          },
+          "response": []
         }
       ]
     },
@@ -498,6 +542,48 @@
                   ]
                 },
                 "description": "Sync one league from provider and persist it locally.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
+              },
+              "response": []
+            },
+            {
+              "name": "Sync League Structure",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"league_id\": 97,\n  \"season\": 2026\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/admin/football-data/sync-league-structure",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "football-data",
+                    "sync-league-structure"
+                  ]
+                },
+                "description": "Sync league season structure using local DB standings and fixtures.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
               },
               "response": []
             },
