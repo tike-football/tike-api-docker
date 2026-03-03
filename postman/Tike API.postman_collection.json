@@ -131,6 +131,9 @@
                   "const data = pm.response.json();",
                   "if (data && data.access_token) {",
                   "  pm.environment.set('access_token', data.access_token);",
+                  "}",
+                  "if (data && data.refresh_token) {",
+                  "  pm.environment.set('refresh_token', data.refresh_token);",
                   "}"
                 ]
               }
@@ -211,6 +214,38 @@
               ]
             },
             "description": "Verify user email address.\n\nRequires: API Key + Verification Token\n\nThe verification token is sent via email and has the 'user:verify' scope. After verification, the token is revoked."
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{refresh_token}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/refresh-token",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Refresh access token and issue a new refresh token.\n\nRequires: API Key + Refresh Token (scope `user:refresh-token`)."
           },
           "response": []
         },
