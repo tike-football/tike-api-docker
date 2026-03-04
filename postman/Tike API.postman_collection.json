@@ -404,6 +404,84 @@
             "description": "Get authenticated user profile.\n\nRequires: API Key + Access Token + 'user:get' scope"
           },
           "response": []
+        },
+        {
+          "name": "Update Avatar",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"avatar_path\": \"system/default02.png\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/avatar",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "avatar"
+              ]
+            },
+            "description": "Update authenticated user's avatar.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Util",
+      "item": [
+        {
+          "name": "Get Available Avatars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/util/get-available-avatars",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "util",
+                "get-available-avatars"
+              ]
+            },
+            "description": "Get list of available avatars.\n\nRequires: API Key and OAuth Bearer token with scope util:get."
+          },
+          "response": []
         }
       ]
     },
