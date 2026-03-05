@@ -445,6 +445,49 @@
             "description": "Update authenticated user's avatar.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
           },
           "response": []
+        },
+        {
+          "name": "Upload Avatar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "description": "Avatar image file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/avatar/upload",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "avatar",
+                "upload"
+              ]
+            },
+            "description": "Upload a new avatar for the authenticated user.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
+          },
+          "response": []
         }
       ]
     },
