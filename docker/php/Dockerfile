@@ -11,3 +11,7 @@ RUN apt-get update \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
+  && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+  && chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache

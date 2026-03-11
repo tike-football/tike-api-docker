@@ -529,6 +529,77 @@
       ]
     },
     {
+      "name": "Friend",
+      "item": [
+        {
+          "name": "Add Friend",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/friend/add/2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "friend",
+                "add",
+                "2"
+              ]
+            },
+            "description": "Add a user as a friend by user id.\n\nRequires: API Key and OAuth Bearer token with scope friend:add."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Friend",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/friend/search/abel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "friend",
+                "search",
+                "abel"
+              ]
+            },
+            "description": "Search verified users by exact email, exact full phone number, or partial name/last name.\n\nRequires: API Key and OAuth Bearer token with scope friend:search."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Football Data",
       "item": [
         {
