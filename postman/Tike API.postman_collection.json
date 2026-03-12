@@ -759,6 +759,45 @@
       "name": "Admin",
       "item": [
         {
+          "name": "Commands",
+          "item": [
+            {
+              "name": "Create Fake Users",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{api_key}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/admin/command/create-fake-users/1000",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "command",
+                    "create-fake-users",
+                    "1000"
+                  ]
+                },
+                "description": "Run the fake users creation command.\n\nRequires: API Key + Access Token + scope `admin:run-commands`."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
           "name": "Football Data",
           "item": [
             {
