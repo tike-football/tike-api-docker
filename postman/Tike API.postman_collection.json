@@ -1,925 +1,1161 @@
 {
-  "info": {
-    "_postman_id": "8d7a01b8-0b54-4b0f-8a52-79e3d6f2b3d1",
-    "name": "Tike API",
-    "description": "Tike API with OAuth2 authentication and API Key security.\n\n**Authentication:**\n- All endpoints (except /health) require an API Key via `X-API-Key` header\n- Protected endpoints also require OAuth Bearer token via `Authorization` header\n\n**Development API Key:**\n- Set `{{api_key}}` in environment to: `dev_test_ddddddddddddddddddddddddddddddddddddddddddddddddddddddd`",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Healthcheck",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/api/v1/health",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "api",
-            "v1",
-            "health"
-          ]
-        },
-        "description": "Health check endpoint - Does not require API key or authentication."
-      },
-      "response": []
+    "info": {
+        "_postman_id": "8d7a01b8-0b54-4b0f-8a52-79e3d6f2b3d1",
+        "name": "Tike API",
+        "description": "Tike API with OAuth2 authentication and API Key security.\n\n**Authentication:**\n- All endpoints (except /health) require an API Key via `X-API-Key` header\n- Protected endpoints also require OAuth Bearer token via `Authorization` header\n\n**Development API Key:**\n- Set `{{api_key}}` in environment to: `dev_test_ddddddddddddddddddddddddddddddddddddddddddddddddddddddd`",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    {
-      "name": "Countries",
-      "item": [
+    "item": [
         {
-          "name": "Get All Countries",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/countries",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "countries"
-              ]
+            "name": "Healthcheck",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/api/v1/health",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "health"
+                    ]
+                },
+                "description": "Health check endpoint - Does not require API key or authentication."
             },
-            "description": "Get list of all countries with phone codes and flag emojis.\n\nRequires: API Key"
-          },
-          "response": []
+            "response": []
         },
         {
-          "name": "Get Country by Code",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/countries/MX",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "countries",
-                "MX"
-              ]
-            },
-            "description": "Get country details by ISO code (alpha-2 or alpha-3).\n\nRequires: API Key\n\nExamples:\n- /countries/MX (alpha-2)\n- /countries/MEX (alpha-3)"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Get Token",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"test@tike.co\",\n  \"password\": \"qwerty1\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/get-token",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "get-token"
-              ]
-            },
-            "description": "Login and get OAuth access token.\n\nRequires: API Key\n\nThe response includes an access_token that is automatically saved to the environment variable for use in authenticated endpoints."
-          },
-          "response": [],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "const data = pm.response.json();",
-                  "if (data && data.access_token) {",
-                  "  pm.environment.set('access_token', data.access_token);",
-                  "}",
-                  "if (data && data.refresh_token) {",
-                  "  pm.environment.set('refresh_token', data.refresh_token);",
-                  "}"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "Sign Up",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"country_code\": \"+1\",\n  \"phone_number\": \"5551234567\",\n  \"password\": \"SecurePass123\",\n  \"password_confirmation\": \"SecurePass123\",\n  \"language\": \"en\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/sign-up",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "sign-up"
-              ]
-            },
-            "description": "Register a new user.\n\nRequires: API Key\n\n**Required fields:**\n- name\n- last_name\n- email (unique)\n- country_code\n- phone_number (unique per country_code)\n- password (min 8 chars, mixed case, numbers)\n- password_confirmation\n\n**Optional:**\n- language (es or en, default: es)"
-          },
-          "response": []
-        },
-        {
-          "name": "Verify Email",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{verification_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/verify-email",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "verify-email"
-              ]
-            },
-            "description": "Verify user email address.\n\nRequires: API Key + Verification Token\n\nThe verification token is sent via email and has the 'user:verify' scope. After verification, the token is revoked."
-          },
-          "response": []
-        },
-        {
-          "name": "Refresh Token",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{refresh_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/refresh-token",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "refresh-token"
-              ]
-            },
-            "description": "Refresh access token and issue a new refresh token.\n\nRequires: API Key + Refresh Token (scope `user:refresh-token`)."
-          },
-          "response": []
-        },
-        {
-          "name": "Update Password",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"current_password\": \"OldPassword123\",\n  \"new_password\": \"NewSecurePass456\",\n  \"new_password_confirmation\": \"NewSecurePass456\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/password",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "password"
-              ]
-            },
-            "description": "Update authenticated user's password.\n\nRequires: API Key + Access Token + 'user:update-password' scope\n\n**Required fields:**\n- current_password\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation"
-          },
-          "response": []
-        },
-        {
-          "name": "Forgot Password",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"test@tike.com\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/password/forgot",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "password",
-                "forgot"
-              ]
-            },
-            "description": "Request password reset email.\n\nRequires: API Key\n\nSends a password reset email with a token that has 'user:recover-password' scope."
-          },
-          "response": []
-        },
-        {
-          "name": "Reset Password",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{reset_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"new_password\": \"NewSecurePass456\",\n  \"new_password_confirmation\": \"NewSecurePass456\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/auth/password/reset",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "password",
-                "reset"
-              ]
-            },
-            "description": "Reset password using reset token.\n\nRequires: API Key + Reset Token + 'user:recover-password' scope\n\n**Required fields:**\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation\n\nAfter reset, all user tokens are revoked and email is verified if not already."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "User",
-      "item": [
-        {
-          "name": "Get User",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/user",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user"
-              ]
-            },
-            "description": "Get authenticated user profile.\n\nRequires: API Key + Access Token + 'user:get' scope"
-          },
-          "response": []
-        },
-        {
-          "name": "Update Avatar",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"avatar_path\": \"system/default02.png\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/user/avatar",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "avatar"
-              ]
-            },
-            "description": "Update authenticated user's avatar.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
-          },
-          "response": []
-        },
-        {
-          "name": "Upload Avatar",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
+            "name": "Countries",
+            "item": [
                 {
-                  "key": "avatar",
-                  "type": "file",
-                  "description": "Avatar image file"
+                    "name": "Get All Countries",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/countries",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "countries"
+                            ]
+                        },
+                        "description": "Get list of all countries with phone codes and flag emojis.\n\nRequires: API Key"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Country by Code",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/countries/MX",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "countries",
+                                "MX"
+                            ]
+                        },
+                        "description": "Get country details by ISO code (alpha-2 or alpha-3).\n\nRequires: API Key\n\nExamples:\n- /countries/MX (alpha-2)\n- /countries/MEX (alpha-3)"
+                    },
+                    "response": []
                 }
-              ]
-            },
-            "url": {
-              "raw": "{{base_url}}/api/v1/user/avatar/upload",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "user",
-                "avatar",
-                "upload"
-              ]
-            },
-            "description": "Upload a new avatar for the authenticated user.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Util",
-      "item": [
-        {
-          "name": "Get Available Avatars",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/util/get-available-avatars",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "util",
-                "get-available-avatars"
-              ]
-            },
-            "description": "Get list of available avatars.\n\nRequires: API Key and OAuth Bearer token with scope util:get."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Friend",
-      "item": [
-        {
-          "name": "Get Friends",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/friend",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "friend"
-              ]
-            },
-            "description": "Get the authenticated user's friendship lists: friends, sent friend requests, and received friend requests.\n\nRequires: API Key and OAuth Bearer token with scope friend:get."
-          },
-          "response": []
+            ]
         },
         {
-          "name": "Add Friend",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/friend/add/2",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "friend",
-                "add",
-                "2"
-              ]
-            },
-            "description": "Add a user as a friend by user id.\n\nRequires: API Key and OAuth Bearer token with scope friend:add."
-          },
-          "response": []
-        },
-        {
-          "name": "Search Friend",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/friend/search/abel",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "friend",
-                "search",
-                "abel"
-              ]
-            },
-            "description": "Search verified users by exact email, exact full phone number, or partial name/last name.\n\nRequires: API Key and OAuth Bearer token with scope friend:get."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Football Data",
-      "item": [
-        {
-          "name": "Get Fixtures",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/football-data/get-fixtures?cache_fixtures_id=",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "football-data",
-                "get-fixtures"
-              ],
-              "query": [
+            "name": "Auth",
+            "item": [
                 {
-                  "key": "cache_fixtures_id",
-                  "value": "",
-                  "description": "Optional. Expected format: YmdHisv"
+                    "name": "Get Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"test@tike.co\",\n  \"password\": \"qwerty1\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/get-token",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "get-token"
+                            ]
+                        },
+                        "description": "Login and get OAuth access token.\n\nRequires: API Key\n\nThe response includes an access_token that is automatically saved to the environment variable for use in authenticated endpoints."
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "const data = pm.response.json();",
+                                    "if (data && data.access_token) {",
+                                    "  pm.environment.set('access_token', data.access_token);",
+                                    "}",
+                                    "if (data && data.refresh_token) {",
+                                    "  pm.environment.set('refresh_token', data.refresh_token);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Sign Up",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"country_code\": \"+1\",\n  \"phone_number\": \"5551234567\",\n  \"password\": \"SecurePass123\",\n  \"password_confirmation\": \"SecurePass123\",\n  \"language\": \"en\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/sign-up",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "sign-up"
+                            ]
+                        },
+                        "description": "Register a new user.\n\nRequires: API Key\n\n**Required fields:**\n- name\n- last_name\n- email (unique)\n- country_code\n- phone_number (unique per country_code)\n- password (min 8 chars, mixed case, numbers)\n- password_confirmation\n\n**Optional:**\n- language (es or en, default: es)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Verify Email",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{verification_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": ""
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/verify-email",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "verify-email"
+                            ]
+                        },
+                        "description": "Verify user email address.\n\nRequires: API Key + Verification Token\n\nThe verification token is sent via email and has the 'user:verify' scope. After verification, the token is revoked."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Refresh Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{refresh_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/refresh-token",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "refresh-token"
+                            ]
+                        },
+                        "description": "Refresh access token and issue a new refresh token.\n\nRequires: API Key + Refresh Token (scope `user:refresh-token`)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Password",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"current_password\": \"OldPassword123\",\n  \"new_password\": \"NewSecurePass456\",\n  \"new_password_confirmation\": \"NewSecurePass456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/password",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "password"
+                            ]
+                        },
+                        "description": "Update authenticated user's password.\n\nRequires: API Key + Access Token + 'user:update-password' scope\n\n**Required fields:**\n- current_password\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Forgot Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"test@tike.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/password/forgot",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "password",
+                                "forgot"
+                            ]
+                        },
+                        "description": "Request password reset email.\n\nRequires: API Key\n\nSends a password reset email with a token that has 'user:recover-password' scope."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Reset Password",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{reset_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"new_password\": \"NewSecurePass456\",\n  \"new_password_confirmation\": \"NewSecurePass456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/auth/password/reset",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "password",
+                                "reset"
+                            ]
+                        },
+                        "description": "Reset password using reset token.\n\nRequires: API Key + Reset Token + 'user:recover-password' scope\n\n**Required fields:**\n- new_password (min 8 chars, mixed case, numbers)\n- new_password_confirmation\n\nAfter reset, all user tokens are revoked and email is verified if not already."
+                    },
+                    "response": []
                 }
-              ]
-            },
-            "description": "Get fixtures cache payload.\n\nRequires: API Key + Access Token + scope `football-data:get`\n\nBehavior:\n- Missing/invalid cache_fixtures_id: returns full cache\n- cache_fixtures_id == cache_fixtures_changes_id: returns empty object\n- cache_fixtures_id older than full cache id: returns full cache\n- cache_fixtures_id == full cache id and changes id is newer: returns changes cache"
-          },
-          "response": []
+            ]
         },
         {
-          "name": "Get League Structure",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/football-data/get-league-structure?league_id=195&season=2026",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "football-data",
-                "get-league-structure"
-              ],
-              "query": [
+            "name": "User",
+            "item": [
                 {
-                  "key": "league_id",
-                  "value": "195",
-                  "description": "Required. Local leagues.id"
+                    "name": "Get User",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user"
+                            ]
+                        },
+                        "description": "Get authenticated user profile.\n\nRequires: API Key + Access Token + 'user:get' scope"
+                    },
+                    "response": []
                 },
                 {
-                  "key": "season",
-                  "value": "2026",
-                  "description": "Required. Season year"
+                    "name": "Update Avatar",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"avatar_path\": \"system/default02.png\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user/avatar",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user",
+                                "avatar"
+                            ]
+                        },
+                        "description": "Update authenticated user's avatar.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Upload Avatar",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "avatar",
+                                    "type": "file",
+                                    "description": "Avatar image file"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/user/avatar/upload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "user",
+                                "avatar",
+                                "upload"
+                            ]
+                        },
+                        "description": "Upload a new avatar for the authenticated user.\n\nRequires: API Key and OAuth Bearer token with scope user:update."
+                    },
+                    "response": []
                 }
-              ]
-            },
-            "description": "Get league season structure from `league_seasons.structure`.\n\nRequires: API Key + Access Token + scope `football-data:get`"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Scopes",
-      "item": [
-        {
-          "name": "Scope Test",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{access_token}}",
-                "type": "text"
-              },
-              {
-                "key": "X-API-Key",
-                "value": "{{api_key}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/api/v1/scopes/test",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "scopes",
-                "test"
-              ]
-            },
-            "description": "Test endpoint for scope validation.\n\nRequires: API Key + Access Token + 'test:test' scope"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Admin",
-      "item": [
-        {
-          "name": "Commands",
-          "item": [
-            {
-              "name": "Create Fake Users",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  },
-                  {
-                    "key": "X-API-Key",
-                    "value": "{{api_key}}",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/v1/admin/command/create-fake-users/1000",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "admin",
-                    "command",
-                    "create-fake-users",
-                    "1000"
-                  ]
-                },
-                "description": "Run the fake users creation command.\n\nRequires: API Key + Access Token + scope `admin:run-commands`."
-              },
-              "response": []
-            }
-          ]
+            ]
         },
         {
-          "name": "Football Data",
-          "item": [
-            {
-              "name": "Sync League",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json",
-                    "type": "text"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  },
-                  {
-                    "key": "X-API-Key",
-                    "value": "{{api_key}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"league_id\": 39,\n  \"season\": 2026\n}"
+            "name": "Util",
+            "item": [
+                {
+                    "name": "Get Available Avatars",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/util/get-available-avatars",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "util",
+                                "get-available-avatars"
+                            ]
+                        },
+                        "description": "Get list of available avatars.\n\nRequires: API Key and OAuth Bearer token with scope util:get."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Friend",
+            "item": [
+                {
+                    "name": "Get Friends",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/friend",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "friend"
+                            ]
+                        },
+                        "description": "Get the authenticated user's friendship lists: friends, sent friend requests, and received friend requests.\n\nRequires: API Key and OAuth Bearer token with scope friend:get."
+                    },
+                    "response": []
                 },
-                "url": {
-                  "raw": "{{base_url}}/api/v1/admin/football-data/sync-league",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "admin",
-                    "football-data",
-                    "sync-league"
-                  ]
+                {
+                    "name": "Add Friend",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/friend/add/2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "friend",
+                                "add",
+                                "2"
+                            ]
+                        },
+                        "description": "Add a user as a friend by user id.\n\nRequires: API Key and OAuth Bearer token with scope friend:add."
+                    },
+                    "response": []
                 },
-                "description": "Sync one league from provider and persist it locally.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
-              },
-              "response": []
-            },
-            {
-              "name": "Sync League Structure",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json",
-                    "type": "text"
-                  },
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  },
-                  {
-                    "key": "X-API-Key",
-                    "value": "{{api_key}}",
-                    "type": "text"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"league_id\": 97,\n  \"season\": 2026\n}"
+                {
+                    "name": "Search Friend",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/friend/search/abel",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "friend",
+                                "search",
+                                "abel"
+                            ]
+                        },
+                        "description": "Search verified users by exact email, exact full phone number, or partial name/last name.\n\nRequires: API Key and OAuth Bearer token with scope friend:get."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Football Data",
+            "item": [
+                {
+                    "name": "Get Fixtures",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/football-data/get-fixtures?cache_fixtures_id=",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "football-data",
+                                "get-fixtures"
+                            ],
+                            "query": [
+                                {
+                                    "key": "cache_fixtures_id",
+                                    "value": "",
+                                    "description": "Optional. Expected format: YmdHisv"
+                                }
+                            ]
+                        },
+                        "description": "Get fixtures cache payload.\n\nRequires: API Key + Access Token + scope `football-data:get`\n\nBehavior:\n- Missing/invalid cache_fixtures_id: returns full cache\n- cache_fixtures_id == cache_fixtures_changes_id: returns empty object\n- cache_fixtures_id older than full cache id: returns full cache\n- cache_fixtures_id == full cache id and changes id is newer: returns changes cache"
+                    },
+                    "response": []
                 },
-                "url": {
-                  "raw": "{{base_url}}/api/v1/admin/football-data/sync-league-structure",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "admin",
-                    "football-data",
-                    "sync-league-structure"
-                  ]
+                {
+                    "name": "Get League Structure",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/football-data/get-league-structure?league_id=195&season=2026",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "football-data",
+                                "get-league-structure"
+                            ],
+                            "query": [
+                                {
+                                    "key": "league_id",
+                                    "value": "195",
+                                    "description": "Required. Local leagues.id"
+                                },
+                                {
+                                    "key": "season",
+                                    "value": "2026",
+                                    "description": "Required. Season year"
+                                }
+                            ]
+                        },
+                        "description": "Get league season structure from `league_seasons.structure`.\n\nRequires: API Key + Access Token + scope `football-data:get`"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Scopes",
+            "item": [
+                {
+                    "name": "Scope Test",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/scopes/test",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "scopes",
+                                "test"
+                            ]
+                        },
+                        "description": "Test endpoint for scope validation.\n\nRequires: API Key + Access Token + 'test:test' scope"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "Commands",
+                    "item": [
+                        {
+                            "name": "Create Fake Users",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "X-API-Key",
+                                        "value": "{{api_key}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/admin/command/create-fake-users/1000",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "admin",
+                                        "command",
+                                        "create-fake-users",
+                                        "1000"
+                                    ]
+                                },
+                                "description": "Run the fake users creation command.\n\nRequires: API Key + Access Token + scope `admin:run-commands`."
+                            },
+                            "response": []
+                        }
+                    ]
                 },
-                "description": "Sync league season structure using local DB standings and fixtures.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
-              },
-              "response": []
-            },
-            {
-              "name": "Cache Fixtures",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{access_token}}",
-                    "type": "text"
-                  },
-                  {
-                    "key": "X-API-Key",
-                    "value": "{{api_key}}",
-                    "type": "text"
-                  }
-                ],
-                "url": {
-                  "raw": "{{base_url}}/api/v1/admin/football-data/cache-fixtures",
-                  "host": [
-                    "{{base_url}}"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "admin",
-                    "football-data",
-                    "cache-fixtures"
-                  ]
+                {
+                    "name": "Football Data",
+                    "item": [
+                        {
+                            "name": "Sync League",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "X-API-Key",
+                                        "value": "{{api_key}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"league_id\": 39,\n  \"season\": 2026\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/admin/football-data/sync-league",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "admin",
+                                        "football-data",
+                                        "sync-league"
+                                    ]
+                                },
+                                "description": "Sync one league from provider and persist it locally.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Sync League Structure",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "X-API-Key",
+                                        "value": "{{api_key}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"league_id\": 97,\n  \"season\": 2026\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/admin/football-data/sync-league-structure",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "admin",
+                                        "football-data",
+                                        "sync-league-structure"
+                                    ]
+                                },
+                                "description": "Sync league season structure using local DB standings and fixtures.\n\nRequires: API Key + Access Token + scope `football-data:sync`"
+                            },
+                            "response": []
+                        },
+                        {
+                            "name": "Cache Fixtures",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{access_token}}",
+                                        "type": "text"
+                                    },
+                                    {
+                                        "key": "X-API-Key",
+                                        "value": "{{api_key}}",
+                                        "type": "text"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/admin/football-data/cache-fixtures",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "admin",
+                                        "football-data",
+                                        "cache-fixtures"
+                                    ]
+                                },
+                                "description": "Run fixtures cache command.\n\nRequires: API Key + Access Token + scope `football-data:cache`"
+                            },
+                            "response": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Group",
+            "item": [
+                {
+                    "name": "Create Group",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Tike Group\",\n  \"description\": \"General chat\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group"
+                            ]
+                        },
+                        "description": "Create a new group.\n\nRequires: API Key + Bearer Token + scope `group:add`.\n\nThe group language is taken from the authenticated user setting `language`."
+                    },
+                    "response": []
                 },
-                "description": "Run fixtures cache command.\n\nRequires: API Key + Access Token + scope `football-data:cache`"
-              },
-              "response": []
-            }
-          ]
+                {
+                    "name": "Add Users To Group",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_ids\": [2, 3, 4]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group/1/users",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group",
+                                "1",
+                                "users"
+                            ]
+                        },
+                        "description": "Add users to a group.\n\nRequires: API Key + Bearer Token + scope `group:add`.\n\nOnly the group owner can add users. Added users are stored with `is_accepted = true`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Group Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group/1/users",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group",
+                                "1",
+                                "users"
+                            ]
+                        },
+                        "description": "Get accepted users that belong to a group.\n\nRequires: API Key + Bearer Token + scope `group:add`.\n\nThe authenticated user must belong to the group."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Upload Group Image",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": ""
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group/1/image/upload",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group",
+                                "1",
+                                "image",
+                                "upload"
+                            ]
+                        },
+                        "description": "Upload or replace the image of a group.\n\nRequires: API Key + Bearer Token + scope `group:add`.\n\nOnly the group owner can update the image."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Group",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Updated Group\",\n  \"description\": \"Updated description\",\n  \"is_active\": true,\n  \"allows_comments\": false,\n  \"accepts_join_requests\": true,\n  \"requires_join_approval\": false,\n  \"language\": \"es\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group",
+                                "1"
+                            ]
+                        },
+                        "description": "Update group fields.\n\nRequires: API Key + Bearer Token + scope `group:add`.\n\nOnly the group owner can update the group."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get My Groups",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/group",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "group"
+                            ]
+                        },
+                        "description": "Get groups where the authenticated user is an accepted member.\n\nRequires: API Key + Bearer Token + scope `group:get`."
+                    },
+                    "response": []
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
