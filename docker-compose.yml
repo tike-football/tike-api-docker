@@ -14,8 +14,11 @@ services:
       DB_DATABASE: tike
       DB_USERNAME: tike
       DB_PASSWORD: tike
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - mysql
+      - redis
 
   nginx:
     image: nginx:1.25-alpine
@@ -42,5 +45,15 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  redis:
+    image: redis:7-alpine
+    container_name: tike-api-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   mysql_data:
+  redis_data:

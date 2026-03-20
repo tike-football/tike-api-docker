@@ -1,5 +1,5 @@
 # tike-api-docker
-Docker setup for Tike API development with Laravel and MySQL.
+Docker setup for Tike API development with Laravel, MySQL, and Redis.
 
 ## Requirements
 - Docker Desktop
@@ -17,6 +17,7 @@ Docker setup for Tike API development with Laravel and MySQL.
 - `app`: PHP-FPM 8.2 with Laravel-required extensions.
 - `nginx`: HTTP proxy on `http://localhost:8080`.
 - `mysql`: MySQL 8.0 database.
+- `redis`: Redis 7 cache/queue backend.
 
 ## Expected Laravel environment variables
 Set these values in `tike-api/.env`:
@@ -27,6 +28,8 @@ DB_PORT=3306
 DB_DATABASE=tike
 DB_USERNAME=tike
 DB_PASSWORD=tike
+REDIS_HOST=redis
+REDIS_PORT=6379
 ```
 
 ## Queue Workers
