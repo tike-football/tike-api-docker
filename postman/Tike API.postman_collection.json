@@ -1156,6 +1156,51 @@
                     "response": []
                 }
             ]
+        },
+        {
+            "name": "Pool",
+            "item": [
+                {
+                    "name": "Create Pool",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"league_id\": 1,\n  \"league_season_id\": 1,\n  \"group_id\": 1,\n  \"name\": \"Pool de prueba\",\n  \"description\": \"Esta es una descripcion de prueba suficientemente larga para cumplir con la validacion minima de cien caracteres en la creacion de una pool.\",\n  \"scope\": \"match\",\n  \"fixture_id\": 1,\n  \"start_phase\": null,\n  \"type\": \"selected_score\",\n  \"accepts_join_requests\": true,\n  \"requires_join_approval\": false\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool"
+                            ]
+                        },
+                        "description": "Create a new pool.\n\nRequires: API Key + Bearer Token + scope `pool:add`.\n\nIf `scope` is `match`, `fixture_id` must belong to an upcoming fixture that starts more than one hour from now."
+                    },
+                    "response": []
+                }
+            ]
         }
     ]
 }
