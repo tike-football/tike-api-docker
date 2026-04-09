@@ -1161,6 +1161,69 @@
             "name": "Pool",
             "item": [
                 {
+                    "name": "Get My Pools",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool"
+                            ]
+                        },
+                        "description": "List pools where the authenticated user is the owner or an approved member.\n\nRequires: API Key + Bearer Token + scope `pool:get`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Pool",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool",
+                                "1"
+                            ]
+                        },
+                        "description": "Get pool detail.\n\nRequires: API Key + Bearer Token + scope `pool:get`.\n\nReturns pool data, optional group and league data, match data for match scope, the authenticated user's pool user fixtures when applicable, approved users, and pending users when the authenticated user is the owner."
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Pool",
                     "request": {
                         "method": "POST",
@@ -1238,6 +1301,39 @@
                             ]
                         },
                         "description": "Update a pool.\n\nRequires: API Key + Bearer Token + scope `pool:add`.\n\nThis endpoint updates the pool, its pool fixtures, pool users and pool user fixtures, and moves the pool status to `scheduled`."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Lock Pool",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool/1/lock",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool",
+                                "1",
+                                "lock"
+                            ]
+                        },
+                        "description": "Lock a pool and move it to `running`.\n\nRequires: API Key + Bearer Token + scope `pool:add`.\n\nOnly the pool owner can do this. It also locks all related pool user fixtures."
                     },
                     "response": []
                 },
