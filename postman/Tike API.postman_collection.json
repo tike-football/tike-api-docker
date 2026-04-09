@@ -1240,6 +1240,90 @@
                         "description": "Update a pool.\n\nRequires: API Key + Bearer Token + scope `pool:add`.\n\nThis endpoint updates the pool, its pool fixtures, pool users and pool user fixtures, and moves the pool status to `scheduled`."
                     },
                     "response": []
+                },
+                {
+                    "name": "Join Pool",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"code\": \"ABC123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool/1/join",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool",
+                                "1",
+                                "join"
+                            ]
+                        },
+                        "description": "Join a pool.\n\nRequires: API Key + Bearer Token + scope `pool:join`.\n\nIf the pool has a join code, the request code must match. If approval is required, the join request is created as pending."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Review Pool Join Request",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": 2,\n  \"approved\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool/1/review-join-request",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool",
+                                "1",
+                                "review-join-request"
+                            ]
+                        },
+                        "description": "Approve or reject a pending pool join request.\n\nRequires: API Key + Bearer Token + scope `pool:add`.\n\nOnly the pool owner can review join requests. If approved, the user is marked as approved and related pool user fixtures are created. If rejected, the pool user record is removed."
+                    },
+                    "response": []
                 }
             ]
         }
