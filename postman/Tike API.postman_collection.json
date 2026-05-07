@@ -1224,6 +1224,39 @@
                     "response": []
                 },
                 {
+                    "name": "Search Pools",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/pool/search/finder",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "pool",
+                                "search",
+                                "finder"
+                            ]
+                        },
+                        "description": "Search pools by pool name, description, or owner name.\n\nRequires: API Key + Bearer Token + scope `pool:get`.\n\nThe search term must have at least 3 characters. Returns up to 10 results using the same summary shape as `Get My Pools`."
+                    },
+                    "response": []
+                },
+                {
                     "name": "Create Pool",
                     "request": {
                         "method": "POST",
